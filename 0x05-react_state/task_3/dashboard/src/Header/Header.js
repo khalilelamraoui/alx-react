@@ -1,54 +1,49 @@
-import React, { Component } from "react";
-import logo from "../assets/holberton_logo.jpg";
+import React, { useContext } from "react";
+import logo from "../assets/holberton-logo.jpg";
 import { StyleSheet, css } from "aphrodite";
-import AppContext from "../App/AppContext";
+import { AppContext } from "../App/AppContext";
 
-const headerStyles = StyleSheet.create({
-  h1: {
-    marginLeft: "10rem",
-    float: "right",
-    flex: 2,
-    "@media (max-width: 900px)": {
-      margin: "auto",
-    },
-  },
+function Header() {
+  const { user, logOut } = useContext(AppContext);
 
-  appHeader: {
+  return (
+    <>
+      <div className={css(styles["App-header"])}>
+        <img src={logo} className={css(styles.img)} alt="logo" />
+        <h1>School dashboard</h1>
+      </div>
+
+      {user.isLoggedIn && (
+        <section className={css(styles.greeting)} id="logoutSection">
+          Welcome<strong> {user.email} </strong>
+          <em>
+            <a href="#" onClick={logOut}>
+              (logout)
+            </a>
+          </em>
+        </section>
+      )}
+    </>
+  );
+}
+
+const styles = StyleSheet.create({
+  "App-header": {
+    fontSize: "1.4rem",
+    color: "#e0354b",
     display: "flex",
-    flexDirection: "row",
     alignItems: "center",
-    color: "#E11D3F",
-    borderBottom: "1px solid #E11D3F",
-    width: "100%",
-    boxSizing: "border-box",
+    borderBottom: "3px solid #e0354b",
   },
 
-  appLogo: {
-    maxHeight: "200px",
-    maxWidth: "200px",
-    height: "auto",
-    width: "auto",
-    flex: 1,
+  img: {
+    width: "200px",
+    height: "200px",
+  },
+
+  greeting: {
+    marginTop: "1rem",
   },
 });
 
-class Header extends Component {
-  render() {
-    const { user, logOut } = this.context;
-    return (
-      <div className={css(headerStyles.appHeader)}>
-        <img src={logo} className={css(headerStyles.appLogo)} alt="logo" />
-        <h1 className={css(headerStyles.h1)}>School dashboard</h1>
-        {
-          user.isLoggedIn && 
-          <section id="logoutSection">
-            Welcome {user.email} <a href="" onClick={() => logOut}>(logout)</a>
-          </section>
-        }
-      </div>
-    );
-  }
-}
-
-Header.contextType = AppContext;
 export default Header;
