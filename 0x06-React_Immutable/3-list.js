@@ -1,8 +1,13 @@
-import { List } from './node_modules/immutable/dist/immutable';
+import { List } from 'immutable';
 
-export function getListObject (array) {
-  return List(array);
+export function getListObject(array) {
+  // Convert the plain array to an immutable List
+  const immutableList = List(array);
+  return immutableList;
 }
-export function addElementToList (list, element) {
-  return list.push(element);
+
+export function addElementToList(list, element) {
+  // Append the string element to the List
+  const updatedList = list.push(element);
+  return updatedList;
 }
